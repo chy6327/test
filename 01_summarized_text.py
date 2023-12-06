@@ -1,8 +1,6 @@
 import streamlit as st
 import openai
 
-
-
 # 챗지피티에게 글요약을 요청하는 함수
 def askGPT(prompt,apiKey):
     client = openai.OpenAI(api_key=apiKey)
@@ -10,30 +8,30 @@ def askGPT(prompt,apiKey):
         model='gpt-3.5-turbo',
         messages=[
             {"role":"user","content":prompt}
-        ]
+        ]        
     )
     finalResponse = response.choices[0].message.content
     return finalResponse
 
-# main 함수
+## main 함수
 def main():
     st.set_page_config(page_title="요약 프로그램")
 
     # session_state 초기화
-    if 'OPENAI_API' not in st.session_state:
-        st.session_state['OPENAI_API'] =''
+    if "OPENAI_API" not in st.session_state:
+        st.session_state["OPENAI_API"] = ""
     
     with st.sidebar:
-        open_apiKey = st.text_input(label='OPEN API 키',placeholder='Enter your api key') 
-
+        open_apiKey = st.text_input(label='OPEN API 키',placeholder='Enter your api key')
+        
         if open_apiKey:
-            st.session_state["OPEN_API"] = open_apiKey
-        st.markdown("---")
+            st.session_state["OPENAI_API"] = open_apiKey
+        st.markdown('---')
 
     st.header(":scroll:요약 프로그램:scroll:")
-    st.markdown("---")
+    st.markdown('---')
 
-    text = st.text_area("요약 할 글을 입력하세요.")
+    text = st.text_area("요약 할 글을 입력하세요")
     if st.button("요약"):
         prompt = f'''
         **Instructions** :
@@ -48,8 +46,5 @@ def main():
     '''
         st.info(askGPT(prompt,st.session_state["OPENAI_API"]))
 
-if __name__  =="__main__":
+if __name__ == "__main__":
     main()
-    
-
-
